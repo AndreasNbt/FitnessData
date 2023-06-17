@@ -1,0 +1,15 @@
+.container-fluid {
+    display: flexbox;
+    justify-content: center;
+}
+
+.nav-link {
+    font-size: large;
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+.active {
+    border-radius: 10%;
+    text-decoration: underline;
+}

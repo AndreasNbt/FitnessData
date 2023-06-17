@@ -1,0 +1,49 @@
+prefix :  <http://example.org/>
+prefix sh: <http://www.w3.org/ns/shacl#>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+
+
+:PersonShape a sh:Shape ;
+    sh:scopeClass :Person ;
+    sh:property [
+        sh:predicate :personId ;
+        sh:minCount 1;
+        sh:maxCount 1;
+        sh:datatype xsd:integer ;
+    ] .
+
+:ObservationShape a sh:Shape ;
+    sh:scopeClass :Observation ;
+    sh:property [
+        sh:predicate :observedPerson ;
+        sh:minCount 1;
+        sh:maxCount 1;
+        sh:datatype :Person ;
+    ] ;
+    sh:property [
+        sh:predicate :hasResult ;
+        sh:minCount 1;
+        sh:maxCount 1;
+        sh:datatype :Result ;
+    ] ;
+    sh:property [
+        sh:predicate :observationId ;
+        sh:minCount 1;
+        sh:maxCount 1;
+        sh:datatype xsd:integer ;
+    ] .
+
+:ResultShape a sh:Shape ;
+    sh:scopeClass :Result ;
+    sh:property [
+        sh:predicate :resultTime ;
+        sh:minCount 1;
+        sh:maxCount 1;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [
+        sh:predicate :resultId ;
+        sh:minCount 1;
+        sh:maxCount 1;
+        sh:datatype xsd:integer ;
+    ] .

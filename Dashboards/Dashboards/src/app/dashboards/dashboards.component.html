@@ -1,0 +1,46 @@
+<div class="container">
+  <!-- Person dropdown menu -->
+  <div class="form-group">
+    <mat-form-field appearance="fill">
+      <mat-label>Select Person</mat-label>
+      <mat-select matInput [(ngModel)]="selectedPerson" name="person">
+        <mat-option *ngFor="let person of people" [value]="person">{{ person }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Categories radio buttons (split into two columns) -->
+  <div class="row">
+    <div class="col">
+      <mat-radio-group [(ngModel)]="selectedCategory" name="category">
+        <div *ngFor="let category of categories.slice(0, categories.length / 2 + 1)">
+          <mat-radio-button [value]="category">{{ category }}</mat-radio-button>
+        </div>
+      </mat-radio-group>
+    </div>
+    <div class="col">
+      <mat-radio-group [(ngModel)]="selectedCategory" name="category">
+        <div *ngFor="let category of categories.slice(categories.length / 2 + 1)">
+          <mat-radio-button [value]="category">{{ category }}</mat-radio-button>
+        </div>
+      </mat-radio-group>
+    </div>
+  </div>
+
+  <!-- Datepicker -->
+  <div class="form-group">
+    <mat-form-field appearance="fill">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matInput matStartDate [(ngModel)]="startDate" name="startDate" placeholder="Start date">
+        <input matInput matEndDate [(ngModel)]="endDate" name="endDate" placeholder="End date">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+    <small class="form-text text-muted">MM/DD/YYYY – MM/DD/YYYY</small>
+  </div>
+
+  <!-- Submit button -->
+  <button class="btn btn-primary" (click)="submitQuery()">Submit</button>
+</div>
