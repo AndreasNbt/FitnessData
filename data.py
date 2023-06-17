@@ -22,13 +22,11 @@ def setDateTime(result, data):
 
     result.resultTime = [datetime.datetime(year, month, day, hour, minutes)]
 
-files = ["./database/weightLogInfo.csv", "./database/dailyCalories.csv"]
-
-#files = ["./database/weightLogInfo.csv", "./database/dailyCalories.csv",
- #        "./database/dailyIntensities.csv", "./database/dailySteps.csv",
-  #       "./database/hourlyCalories.csv", "./database/hourlyIntensities.csv",
-   #      "./database/hourlySteps.csv", "./database/minuteSleep.csv", 
-    #     "./database/sleepDay.csv"]
+files = ["./database/weightLogInfo.csv", "./database/dailyCalories.csv",
+         "./database/dailyIntensities.csv", "./database/dailySteps.csv",
+         "./database/hourlyCalories.csv", "./database/hourlyIntensities.csv",
+         "./database/hourlySteps.csv", "./database/minuteSleep.csv", 
+         "./database/sleepDay.csv"]
 
 def loadData(onto):
     people = []
