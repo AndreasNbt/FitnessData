@@ -22,11 +22,13 @@ def setDateTime(result, data):
 
     result.resultTime = [datetime.datetime(year, month, day, hour, minutes)]
 
-files = ["./database/weightLogInfo.csv", "./database/dailyCalories.csv",
-         "./database/dailyIntensities.csv", "./database/dailySteps.csv",
-         "./database/hourlyCalories.csv", "./database/hourlyIntensities.csv",
-         "./database/hourlySteps.csv", "./database/minuteSleep.csv", 
-         "./database/sleepDay.csv"]
+files = ["./database/weightLogInfo.csv", "./database/dailyCalories.csv"]
+
+#files = ["./database/weightLogInfo.csv", "./database/dailyCalories.csv",
+ #        "./database/dailyIntensities.csv", "./database/dailySteps.csv",
+  #       "./database/hourlyCalories.csv", "./database/hourlyIntensities.csv",
+   #      "./database/hourlySteps.csv", "./database/minuteSleep.csv", 
+    #     "./database/sleepDay.csv"]
 
 def loadData(onto):
     people = []
@@ -34,7 +36,7 @@ def loadData(onto):
     observationCount = 1
     resultCount = 1
     for file in files:
-        loadFileData(onto, people, file, filenum, observationCount, resultCount)
+        observationCount, resultCount = loadFileData(onto, people, file, filenum, observationCount, resultCount)
         filenum += 1
     
     
@@ -44,47 +46,49 @@ def loadFileData(onto, people, filename, filenum, observationCount, resultCount)
     df.fillna(0, inplace=True)  
 
     for row in df.iterrows():
-            column_index = 0
-            observation = onto.Observation(observationId = [observationCount])
-            result = onto.Result(resultId = [resultCount])
-            observation.hasResult = [result]
-            observationCount += 1
-            resultCount += 1
-            
-            for data in row[1]:        
-                if (column_index == 0):
-                    if data in people:
-                        for person in onto.Person.instances():
-                            if person.personId[0] == data:
-                                observation.observedPerson = [person]
-                                break
-                    else:
-                        person = onto.Person(personId = [data])
-                        observation.observedPerson = [person]
-                        people.append(data)
-
+        column_index = 0
+        observation = onto.Observation(observationId = [observationCount])
+        result = onto.Result(resultId = [resultCount])
+        observation.hasResult = [result]
+        observationCount += 1
+        resultCount += 1
+        
+        for data in row[1]:        
+            if (column_index == 0):
+                if data in people:
+                    for person in onto.Person.instances():
+                        if person.personId[0] == data:
+                            observation.observedPerson = [person]
+                            break
                 else:
-                    if data != 0:
-                        match(filenum):
-                            case 1:
-                                loadWeightLogInfo(column_index, result, data)
-                            case 2:
-                                loadDailyCalories(column_index, result, data)
-                            case 3:
-                                loadDailyIntensities(column_index, result, data)
-                            case 4:
-                                loadDailySteps(column_index, result, data)
-                            case 5:
-                                loadHourlyCalories(column_index, result, data)
-                            case 6:
-                                loadHourlyIntensities(column_index, result, data)
-                            case 7:
-                                loadHourlySteps(column_index, result, data)
-                            case 8:
-                                loadMinuteSleep(column_index, result, data)
-                            case 9:
-                                loadSleepDay(column_index, result, data)
-                column_index += 1
+                    person = onto.Person(personId = [data])
+                    observation.observedPerson = [person]
+                    people.append(data)
+
+            else:
+                if data != 0:
+                    match(filenum):
+                        case 1:
+                            loadWeightLogInfo(column_index, result, data)
+                        case 2:
+                            loadDailyCalories(column_index, result, data)
+                        case 3:
+                            loadDailyIntensities(column_index, result, data)
+                        case 4:
+                            loadDailySteps(column_index, result, data)
+                        case 5:
+                            loadHourlyCalories(column_index, result, data)
+                        case 6:
+                            loadHourlyIntensities(column_index, result, data)
+                        case 7:
+                            loadHourlySteps(column_index, result, data)
+                        case 8:
+                            loadMinuteSleep(column_index, result, data)
+                        case 9:
+                            loadSleepDay(column_index, result, data)
+            column_index += 1
+
+    return observationCount, resultCount
 
 def loadWeightLogInfo(column_index, result, data):
     match(column_index):
