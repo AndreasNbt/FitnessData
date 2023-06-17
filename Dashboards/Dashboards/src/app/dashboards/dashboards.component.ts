@@ -13,11 +13,18 @@ export class DashboardsComponent {
 
   categories = ["Weight", "BMI", "Calories", "Activity", "Distance", "Steps", "Sleep"]
 
+  people: string[] = [];
+  fetchPeopleQuery = `PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+                      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                      PREFIX : <http://test.org/FitnessData.owl#>
+                      SELECT *
+                      WHERE {?Person a :Person}`
+
   query: string = "";
   queryResults: any[] = [];
   displayedColumns: string[] = [];
 
-  people: string[] = [];
+  
   selectedPerson: string = '';
   selectedCategory: string = '';
 
@@ -27,21 +34,37 @@ export class DashboardsComponent {
   chartData: any[] = [];
 
   ngOnInit() {
-    // Fetch the list of people from the dataset
-    //this.fetchPeople();
+    this.fetchPeople();
   }
 
   constructor(private queryService: QueryService) { }  
   
   fetchPeople() {
-    this.queryService.executeQuery(this.query)
+    this.queryService.executeQuery(this.fetchPeopleQuery)
     .pipe(
       map(response => response.results.bindings),
+      map(response => {
+        let values = [];
+        response.forEach((person) => {
+          values.push(person.Person.value);
+        })
+        return values;
+      }),
+      map(values => {
+        let newValues = [];
+        values.forEach((value) => {
+          newValues.push(value.split('#')[1]);
+        })
+        return newValues;
+      }),
+      
       catchError(err => {
         throw 'Error. Details: ' + err;
       })
     )
-    .subscribe()
+    .subscribe(response => {
+      this.people = response;  
+    })
   }
   
   
