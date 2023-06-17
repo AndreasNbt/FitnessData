@@ -31,18 +31,17 @@ files = ["./database/weightLogInfo.csv", "./database/dailyCalories.csv",
 def loadData(onto):
     people = []
     filenum = 1
+    observationCount = 1
+    resultCount = 1
     for file in files:
-        loadFileData(onto, people, file, filenum)
+        loadFileData(onto, people, file, filenum, observationCount, resultCount)
         filenum += 1
     
     
-def loadFileData(onto, people, filename, filenum):
+def loadFileData(onto, people, filename, filenum, observationCount, resultCount):
 
     df = pd.read_csv(filename)
     df.fillna(0, inplace=True)  
-
-    observationCount = 1
-    resultCount = 1
 
     for row in df.iterrows():
             column_index = 0
