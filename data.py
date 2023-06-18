@@ -64,26 +64,25 @@ def loadFileData(onto, people, filename, filenum, observationCount, resultCount)
                     people.append(data)
 
             else:
-                if data != 0:
-                    match(filenum):
-                        case 1:
-                            loadWeightLogInfo(column_index, result, data)
-                        case 2:
-                            loadDailyCalories(column_index, result, data)
-                        case 3:
-                            loadDailyIntensities(column_index, result, data)
-                        case 4:
-                            loadDailySteps(column_index, result, data)
-                        case 5:
-                            loadHourlyCalories(column_index, result, data)
-                        case 6:
-                            loadHourlyIntensities(column_index, result, data)
-                        case 7:
-                            loadHourlySteps(column_index, result, data)
-                        case 8:
-                            loadMinuteSleep(column_index, result, data)
-                        case 9:
-                            loadSleepDay(column_index, result, data)
+                match(filenum):
+                    case 1:
+                        loadWeightLogInfo(column_index, result, data)
+                    case 2:
+                        loadDailyCalories(column_index, result, data)
+                    case 3:
+                        loadDailyIntensities(column_index, result, data)
+                    case 4:
+                        loadDailySteps(column_index, result, data)
+                    case 5:
+                        loadHourlyCalories(column_index, result, data)
+                    case 6:
+                        loadHourlyIntensities(column_index, result, data)
+                    case 7:
+                        loadHourlySteps(column_index, result, data)
+                    case 8:
+                        loadMinuteSleep(column_index, result, data)
+                    case 9:
+                        loadSleepDay(column_index, result, data)
             column_index += 1
 
     return observationCount, resultCount
@@ -121,9 +120,9 @@ def loadDailyIntensities(column_index, result, data):
         case 5:
             result.hasVeryActiveMinutes = [data]
         case 6:
-            result.hasSedentaryActiveMinutes = [data]
+            result.hasSedentaryActiveDistance = [data]
         case 7:
-            result.hasLightlyActiveMinutes = [data]
+            result.hasLightlyActiveDistance = [data]
         case 8:
             result.hasModeratelyActiveDistance = [data]
         case 9:

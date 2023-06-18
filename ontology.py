@@ -79,8 +79,6 @@ def addClassesAndProperties(ontology):
             pass
         class hasIntensityPerMinute(Result >> str):
             pass
-        class hasTotalSteps(Result >> int):
-            pass
         class hasTotalSleepRecords(Result >> int):
             pass
         class hasTotalMinutesAsleep(Result >> int):

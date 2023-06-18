@@ -37,8 +37,8 @@ export class DashboardsComponent {
   selectedPerson: Person;
   selectedCategory: string = '';
 
-  startDate: Date = new Date(); 
-  endDate: Date = new Date();
+  startDate: Date = new Date("1/1/2016"); 
+  endDate: Date = new Date("1/1/2017");
 
   chartData: any[] = [];
 
@@ -98,7 +98,23 @@ export class DashboardsComponent {
       this.query += `SELECT ?Date ?WeightKg ?WeightPounds WHERE { ?Person a :Person ; :personId ${this.selectedPerson.id} . ?Observation a :Observation ; :observedPerson ?Person ; :hasResult ?Result . ?Result :hasWeightKg ?WeightKg ; :hasWeightPounds ?WeightPounds ; :resultTime ?Date . FILTER(?Date >= "${formattedStartDate}"^^xsd:dateTime && ?Date <= "${formattedEndDate}"^^xsd:dateTime) }`;
       this.displayedColumns = ["Date", "WeightKg", "WeightPounds"];
     } else if (this.selectedCategory === 'BMI') {
-      this.query = `SELECT ?date ?value WHERE { ?x :personId "${this.selectedPerson}" ; :date ?date ; :bmi ?value . FILTER(?date >= "${formattedStartDate}"^^xsd:date && ?date <= "${formattedEndDate}"^^xsd:date) }`;
+      this.query += `SELECT ?Date ?BMI WHERE { ?Person a :Person ; :personId ${this.selectedPerson.id} . ?Observation a :Observation ; :observedPerson ?Person ; :hasResult ?Result . ?Result :hasBMI ?BMI ; :resultTime ?Date . FILTER(?Date >= "${formattedStartDate}"^^xsd:dateTime && ?Date <= "${formattedEndDate}"^^xsd:dateTime) }`;
+      this.displayedColumns = ["Date", "BMI"];
+    } else if (this.selectedCategory === 'Calories') {
+      this.query += `SELECT ?Date ?Calories WHERE { ?Person a :Person ; :personId ${this.selectedPerson.id} . ?Observation a :Observation ; :observedPerson ?Person ; :hasResult ?Result . ?Result :hasCaloriesBurned ?Calories ; :resultTime ?Date . FILTER(?Date >= "${formattedStartDate}"^^xsd:dateTime && ?Date <= "${formattedEndDate}"^^xsd:dateTime) }`;
+      this.displayedColumns = ["Date", "Calories"];
+    } else if (this.selectedCategory === 'Activity') {
+      this.query += `SELECT ?Date ?SedentaryMinutes ?LightlyActiveMinutes ?FairlyActiveMinutes ?VeryActiveMinutes WHERE { ?Person a :Person ; :personId ${this.selectedPerson.id} . ?Observation a :Observation ; :observedPerson ?Person ; :hasResult ?Result . ?Result :hasSedentaryMinutes ?SedentaryMinutes ; :hasLightlyActiveMinutes ?LightlyActiveMinutes ; :hasFairlyActiveMinutes ?FairlyActiveMinutes ; :hasVeryActiveMinutes ?VeryActiveMinutes ; :resultTime ?Date . FILTER(?Date >= "${formattedStartDate}"^^xsd:dateTime && ?Date <= "${formattedEndDate}"^^xsd:dateTime) }`;
+      this.displayedColumns = ["Date", "SedentaryMinutes", "LightlyActiveMinutes", "FairlyActiveMinutes", "VeryActiveMinutes"];
+    } else if (this.selectedCategory === 'Distance') {
+      this.query += `SELECT ?Date ?SedentaryActiveDistance ?LightlyActiveDistance ?ModeratelyActiveDistance ?VeryActiveDistance WHERE { ?Person a :Person ; :personId ${this.selectedPerson.id} . ?Observation a :Observation ; :observedPerson ?Person ; :hasResult ?Result . ?Result :hasSedentaryActiveDistance ?SedentaryActiveDistance ; :hasLightlyActiveDistance ?LightlyActiveDistance ; :hasModeratelyActiveDistance ?ModeratelyActiveDistance ; :hasVeryActiveDistance ?VeryActiveDistance ; :resultTime ?Date . FILTER(?Date >= "${formattedStartDate}"^^xsd:dateTime && ?Date <= "${formattedEndDate}"^^xsd:dateTime) }`;
+      this.displayedColumns = ["Date", "SedentaryActiveDistance", "LightlyActiveDistance", "ModeratelyActiveDistance", "VeryActiveDistance"];
+    } else if (this.selectedCategory === 'Steps') {
+      this.query += `SELECT ?Date ?Steps WHERE { ?Person a :Person ; :personId ${this.selectedPerson.id} . ?Observation a :Observation ; :observedPerson ?Person ; :hasResult ?Result . ?Result :hasTotalSteps ?Steps ; :resultTime ?Date . FILTER(?Date >= "${formattedStartDate}"^^xsd:dateTime && ?Date <= "${formattedEndDate}"^^xsd:dateTime) }`;
+      this.displayedColumns = ["Date", "Steps"];
+    } else if (this.selectedCategory === 'Sleep') {
+      this.query += `SELECT ?Date ?SleepRecords ?MinutesAsleep ?MinutesInBed WHERE { ?Person a :Person ; :personId ${this.selectedPerson.id} . ?Observation a :Observation ; :observedPerson ?Person ; :hasResult ?Result . ?Result :hasTotalSleepRecords ?SleepRecords ; :hasTotalMinutesAsleep ?MinutesAsleep ; :hasTotalTimeInBed ?MinutesInBed ; :resultTime ?Date . FILTER(?Date >= "${formattedStartDate}"^^xsd:dateTime && ?Date <= "${formattedEndDate}"^^xsd:dateTime) }`;
+      this.displayedColumns = ["Date", "SleepRecords", "MinutesAsleep", "MinutesInBed"];
     }
     // ...
 
