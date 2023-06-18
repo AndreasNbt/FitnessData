@@ -45,7 +45,7 @@
   <!-- Submit button -->
   <button class="btn btn-primary" (click)="submitQuery()">Submit</button>
   
-  <div *ngIf="queryResults.length > 0">
+  <div *ngIf="showTable">
     <table mat-table [dataSource]="queryResults" class="mat-elevation-z8">
       <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
         <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
@@ -55,6 +55,17 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+
+    <mat-paginator 
+      [pageSize]="pageSize" 
+      [pageSizeOptions]="pageSizeOptions"
+      [pageIndex]="currentPage" 
+      [length]="queryResultsLength" 
+      (page)="handlePageEvent($event)"
+      showFirstLastButtons>
+    </mat-paginator>
   </div>
+
+  
 
 </div>

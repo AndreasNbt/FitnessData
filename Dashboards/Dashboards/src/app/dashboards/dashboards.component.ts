@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { QueryService } from '../services/query.service';
-import { map, tap, catchError } from 'rxjs';
+import { map, catchError } from 'rxjs';
 import { formatDate } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 interface Person {
   name: string,
@@ -16,33 +18,33 @@ interface Person {
 })
 export class DashboardsComponent {
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   categories = ["Weight", "BMI", "Calories", "Activity", "Distance", "Steps", "Sleep"]
 
   people: Person[] = [];
-  fetchPeopleQuery = `PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-                      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                      PREFIX : <http://test.org/FitnessData.owl#>
-                      SELECT *
-                      WHERE {
-                          ?Person a :Person .
-                          ?Person :personId ?PersonId .
-                      }`
+  fetchPeopleQuery = `PREFIX foaf: <http://xmlns.com/foaf/0.1/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX : <http://test.org/FitnessData.owl#> SELECT * WHERE { ?Person a :Person . ?Person :personId ?PersonId . }`
 
-  query: string = "";
-  queryResults: any[] = [];
+  query: string;
+  queryResults: MatTableDataSource<any>;
+  queryResultsLength: number;
   displayedColumns: string[] = [];
+
+  pageEvent: PageEvent;
+  pageSizeOptions: number[] = [5, 10, 25, 50];
+  pageSize = 10;
+  currentPage = 0;
+  
+  showTable = false;
   emptyResult = false;
 
-  
   selectedPerson: Person;
-  selectedCategory: string = '';
-
+  selectedCategory: string;
   startDate: Date = new Date("1/1/2016"); 
   endDate: Date = new Date("1/1/2017");
 
-  chartData: any[] = [];
-
   ngOnInit() {
+    this.queryResults = new MatTableDataSource<any>;
     this.fetchPeople();
   }
 
@@ -58,21 +60,10 @@ export class DashboardsComponent {
       map(response => {
         let values: Person[] = [];
         response.forEach((person) => {
-          values.push({ name: person.Person.value, id: person.PersonId.value });
+          values.push({ name: person.Person.value.split('#')[1], id: person.PersonId.value });
         })
         return values;
       }),
-      map(values => {
-        let newValues: Person[] = [];
-        values.forEach((value) => {
-          newValues.push({ name: value.name.split('#')[1], id: value.id });
-        })
-        return newValues;
-      }),
-      
-      catchError(err => {
-        throw 'Error. Details: ' + err;
-      })
     )
     .subscribe(response => {
       this.people = response;  
@@ -88,8 +79,33 @@ export class DashboardsComponent {
     const formattedStartDate = formatDate(this.startDate, 'yyyy-MM-dd', 'en');
     const formattedEndDate = formatDate(this.endDate, 'yyyy-MM-dd', 'en');
 
-    
+    this.selectQuery(formattedStartDate, formattedEndDate);
 
+    this.queryService.executeQuery(this.query)
+      .pipe(
+        map(response => response.results.bindings),
+        map(response => {
+          this.queryResultsLength = response.length;
+          return response.slice(this.currentPage * this.pageSize, this.currentPage * this.pageSize + this.pageSize)
+        }),
+      )
+      .subscribe(response => {
+        this.queryResults = response;
+        if (!this.queryResults) {
+          this.emptyResult = true;
+        }
+        this.showTable = true;
+      })
+  }
+
+  handlePageEvent(e: PageEvent) {
+    this.pageEvent = e;
+    this.pageSize = e.pageSize;
+    this.currentPage = e.pageIndex;
+    this.submitQuery();
+  }
+  
+  private selectQuery(formattedStartDate, formattedEndDate) {
     this.query = `PREFIX foaf: <http://xmlns.com/foaf/0.1/>
                 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                 PREFIX : <http://test.org/FitnessData.owl#>`;
@@ -116,39 +132,7 @@ export class DashboardsComponent {
       this.query += `SELECT ?Date ?SleepRecords ?MinutesAsleep ?MinutesInBed WHERE { ?Person a :Person ; :personId ${this.selectedPerson.id} . ?Observation a :Observation ; :observedPerson ?Person ; :hasResult ?Result . ?Result :hasTotalSleepRecords ?SleepRecords ; :hasTotalMinutesAsleep ?MinutesAsleep ; :hasTotalTimeInBed ?MinutesInBed ; :resultTime ?Date . FILTER(?Date >= "${formattedStartDate}"^^xsd:dateTime && ?Date <= "${formattedEndDate}"^^xsd:dateTime) }`;
       this.displayedColumns = ["Date", "SleepRecords", "MinutesAsleep", "MinutesInBed"];
     }
-    // ...
 
-
-    this.queryService.executeQuery(this.query)
-      .pipe(
-        map(response => response.results.bindings),
-        catchError(err => {
-          throw 'Error. Details: ' + err;
-        })
-      )
-      .subscribe(response => {
-        this.queryResults = response;
-        if (this.queryResults.length === 0) {
-          this.emptyResult = true;
-        }
-        console.log(this.queryResults);
-
-        //this.chartData = this.processDataForChart(this.queryResults);)
-      })
-  }
-  
-  processDataForChart(data: any[]): any[] {
-    const chartData = [];
-
-    data.forEach(item => {
-      console.log(item);
-      chartData.push({
-        name: item[this.displayedColumns[0]].value,
-        value: item[this.displayedColumns[1]].value
-      });
-    });
-
-    return chartData;
   }
 
 }
