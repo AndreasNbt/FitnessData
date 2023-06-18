@@ -1,10 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { QueryService } from '../services/query.service';
-import { map, catchError } from 'rxjs';
+import { map } from 'rxjs';
 import { formatDate } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Chart } from 'chart.js/auto';
+
 
 interface Person {
   name: string,
@@ -95,8 +97,48 @@ export class DashboardsComponent {
           this.emptyResult = true;
         }
         this.showTable = true;
+        this.generateGraphs(this.queryResults);
       })
   }
+
+  generateGraphs(data): void {
+    
+    const dateColumn = data.map(result => result.Date.value);
+    const otherColumns = Object.keys(data[0]).filter(column => column !== 'Date');
+
+    console.log(dateColumn);
+    console.log(otherColumns);
+  
+    otherColumns.forEach(column => {
+      const values = data.map(result => result[column].value);
+      console.log(values);
+  
+      const chartCanvas = document.createElement('canvas');
+      chartCanvas.classList.add('chart-canvas');
+      chartCanvas.id = `chartCanvas-${column}`;
+  
+      const chartContainer = document.getElementById('chartContainer');
+      chartContainer.appendChild(chartCanvas);
+  
+      const ctx = chartCanvas.getContext('2d');
+  
+      new Chart(ctx, {
+        // Configure the chart with appropriate data and options
+        type: 'line',
+        data: {
+          labels: dateColumn,
+          datasets: [{
+            label: column,
+            data: values,
+            // Customize the dataset options
+          }]
+        },
+        
+        // Additional chart options
+      });
+    });
+  }
+  
 
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
