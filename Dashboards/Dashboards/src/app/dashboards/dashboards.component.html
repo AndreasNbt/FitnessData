@@ -5,7 +5,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Select Person</mat-label>
         <mat-select matInput [(ngModel)]="selectedPerson" name="person">
-          <mat-option *ngFor="let person of people" [value]="person">{{ person }}</mat-option>
+          <mat-option *ngFor="let person of people" [value]="person">{{ person.name }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -42,9 +42,19 @@
     </div>
   </div>
 
-  <!-- Datepicker -->
-  
-
   <!-- Submit button -->
   <button class="btn btn-primary" (click)="submitQuery()">Submit</button>
+  
+  <div *ngIf="queryResults.length > 0">
+    <table mat-table [dataSource]="queryResults" class="mat-elevation-z8">
+      <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+        <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+        <td mat-cell *matCellDef="let element">{{ element[column].value }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
 </div>
