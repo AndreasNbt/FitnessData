@@ -1,11 +1,21 @@
 <div class="container">
-  <!-- Person dropdown menu -->
-  <div class="d-flex">
+  <h5>Enter your selections</h5>
+
+  <div class="form">
     <div class="form-group">
       <mat-form-field appearance="fill">
         <mat-label>Select Person</mat-label>
         <mat-select matInput [(ngModel)]="selectedPerson" name="person">
           <mat-option *ngFor="let person of people" [value]="person">{{ person.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field appearance="fill">
+        <mat-label>Select Category</mat-label>
+        <mat-select matInput [(ngModel)]="selectedCategory" name="category">
+          <mat-option *ngFor="let category of categories" [value]="category">{{ category }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -22,28 +32,11 @@
       </mat-form-field>
     </div>
   
+    <button class="btn btn-primary" (click)="submitQuery()">Submit</button>
   </div>
   
-  <!-- Categories radio buttons (split into two columns) -->
-  <div class="row">
-    <div class="col">
-      <mat-radio-group [(ngModel)]="selectedCategory" name="category">
-        <div *ngFor="let category of categories.slice(0, categories.length / 2 + 1)">
-          <mat-radio-button [value]="category">{{ category }}</mat-radio-button>
-        </div>
-      </mat-radio-group>
-    </div>
-    <div class="col">
-      <mat-radio-group [(ngModel)]="selectedCategory" name="category">
-        <div *ngFor="let category of categories.slice(categories.length / 2 + 1)">
-          <mat-radio-button [value]="category">{{ category }}</mat-radio-button>
-        </div>
-      </mat-radio-group>
-    </div>
-  </div>
-
   <!-- Submit button -->
-  <button class="btn btn-primary" (click)="submitQuery()">Submit</button>
+  
   
   <div *ngIf="showTable">
     <table mat-table [dataSource]="queryResults" class="mat-elevation-z8">

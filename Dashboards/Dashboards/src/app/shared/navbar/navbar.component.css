@@ -1,4 +1,5 @@
 .container-fluid {
+    border-bottom: 3px solid rgb(49, 121, 126);
     display: flexbox;
     justify-content: center;
 }

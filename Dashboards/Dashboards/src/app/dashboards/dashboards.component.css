@@ -1,0 +1,19 @@
+.container {
+    background-color: rgb(227, 241, 241);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 30px;
+    width: 80%;
+}
+
+.form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.btn {
+    width: 10%;
+    height: 56px;
+}

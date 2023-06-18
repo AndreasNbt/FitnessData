@@ -32,7 +32,7 @@ export class DashboardsComponent {
 
   pageEvent: PageEvent;
   pageSizeOptions: number[] = [5, 10, 25, 50];
-  pageSize = 10;
+  pageSize = 5;
   currentPage = 0;
   
   showTable = false;
