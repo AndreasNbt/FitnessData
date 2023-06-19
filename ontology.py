@@ -53,7 +53,7 @@ def addClassesAndProperties(ontology):
             pass   
         class hasCaloriesBurned(Result >> int):
             pass
-        class hasCaloriesBurnedPerMinute(Result >> int):
+        class hasCaloriesBurnedPerHour(Result >> int):
             pass
         class hasSedentaryMinutes(Result >> int):
             pass
@@ -72,6 +72,8 @@ def addClassesAndProperties(ontology):
         class hasVeryActiveDistance(Result >> float):
             pass
         class hasTotalSteps(Result >> int):
+            pass
+        class hasTotalStepsPerHour(Result >> int):
             pass
         class hasTotalIntensity(Result >> int):
             pass

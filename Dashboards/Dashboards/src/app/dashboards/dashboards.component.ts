@@ -31,6 +31,7 @@ export class DashboardsComponent {
   queryResults: MatTableDataSource<any>;
   queryResultsLength: number;
   displayedColumns: string[] = [];
+  chartData: any[];
 
   pageEvent: PageEvent;
   pageSizeOptions: number[] = [5, 10, 25, 50];
@@ -42,8 +43,8 @@ export class DashboardsComponent {
 
   selectedPerson: Person;
   selectedCategory: string;
-  startDate: Date = new Date("1/1/2016"); 
-  endDate: Date = new Date("1/1/2017");
+  startDate: Date = new Date("3/12/2016"); 
+  endDate: Date = new Date("5/12/2016");
 
   ngOnInit() {
     this.queryResults = new MatTableDataSource<any>;
@@ -88,16 +89,20 @@ export class DashboardsComponent {
         map(response => response.results.bindings),
         map(response => {
           this.queryResultsLength = response.length;
+          this.chartData = response;
           return response.slice(this.currentPage * this.pageSize, this.currentPage * this.pageSize + this.pageSize)
         }),
       )
       .subscribe(response => {
-        this.queryResults = response;
-        if (!this.queryResults) {
-          this.emptyResult = true;
+        if (!response.length) {
+          //this.emptyResult = true;
         }
-        this.showTable = true;
-        this.generateGraphs(this.queryResults);
+        else {
+          this.queryResults = response;
+          this.showTable = true;
+          this.generateGraphs(this.chartData);
+        }
+        
       })
   }
 
@@ -106,18 +111,17 @@ export class DashboardsComponent {
     const dateColumn = data.map(result => result.Date.value);
     const otherColumns = Object.keys(data[0]).filter(column => column !== 'Date');
 
-    console.log(dateColumn);
-    console.log(otherColumns);
-  
+    const chartContainer = document.getElementById('chartContainer');
+    chartContainer.classList.add('visible')
+    chartContainer.innerHTML = ""
+
     otherColumns.forEach(column => {
       const values = data.map(result => result[column].value);
-      console.log(values);
   
       const chartCanvas = document.createElement('canvas');
       chartCanvas.classList.add('chart-canvas');
       chartCanvas.id = `chartCanvas-${column}`;
   
-      const chartContainer = document.getElementById('chartContainer');
       chartContainer.appendChild(chartCanvas);
   
       const ctx = chartCanvas.getContext('2d');

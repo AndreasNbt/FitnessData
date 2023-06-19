@@ -140,7 +140,7 @@ def loadHourlyCalories(column_index, result, data):
         case 1:
             setDateTime(result, data)
         case 2:
-            result.hasCaloriesBurned = [data]
+            result.hasCaloriesBurnedPerHour = [data]
                 
 def loadHourlyIntensities(column_index, result, data):
     match(column_index):
@@ -156,7 +156,7 @@ def loadHourlySteps(column_index, result, data):
         case 1:
             setDateTime(result, data)
         case 2:
-            result.hasTotalSteps = [data]
+            result.hasTotalStepsPerHour = [data]
                 
 def loadSleepDay(column_index, result, data):
     match(column_index):
