@@ -37,6 +37,9 @@
   
   <!-- Submit button -->
   
+  <div *ngIf="emptyResult">
+    <h3 class="no-results">No results found</h3>
+  </div>
   
   <div *ngIf="showTable">
     <table mat-table [dataSource]="queryResults" class="mat-elevation-z8">
@@ -50,7 +53,7 @@
     </table>
 
     <mat-paginator 
-      [pageSize]="pageSize" 
+      [pageSize]="pageSize < queryResultsLength ? pageSize : queryResultsLength" 
       [pageSizeOptions]="pageSizeOptions"
       [pageIndex]="currentPage" 
       [length]="queryResultsLength" 

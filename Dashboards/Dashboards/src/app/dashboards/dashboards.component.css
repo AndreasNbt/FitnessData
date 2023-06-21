@@ -23,16 +23,23 @@
 }
 
 #chartContainer {
-    border: 3px solid #ccc; 
-    display: none;
-    padding: 10px; 
+    border: 3px solid rgb(49, 121, 126); 
+    padding: 30px; 
     margin-top: 50px;
   }
   
-  #chartContainer .chart-canvas {
-    margin-bottom: 20px; 
-  }
+.hide {
+    display: none !important;
+}
 
-.visible {
+.show {
     display: block !important;
 }
+
+.no-results {
+    font-size: 16px;
+    color: red;
+    margin: 20px;
+    text-align: center;
+  }
+  

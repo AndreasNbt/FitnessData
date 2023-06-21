@@ -49,6 +49,7 @@ export class DashboardsComponent {
   ngOnInit() {
     this.queryResults = new MatTableDataSource<any>;
     this.fetchPeople();
+    this.hideCanvas();
   }
 
   constructor(
@@ -95,31 +96,33 @@ export class DashboardsComponent {
       )
       .subscribe(response => {
         if (!response.length) {
-          //this.emptyResult = true;
+          this.showTable = false;
+          this.emptyResult = true;
+          this.hideCanvas();
         }
         else {
           this.queryResults = response;
           this.showTable = true;
+          this.emptyResult = false;
           this.generateGraphs(this.chartData);
         }
         
       })
   }
 
-  generateGraphs(data): void {
+  private generateGraphs(data): void {
     
-    const dateColumn = data.map(result => result.Date.value);
+    const dateColumn = data.map(result => result.Date.value.split("T")[0]);
     const otherColumns = Object.keys(data[0]).filter(column => column !== 'Date');
 
     const chartContainer = document.getElementById('chartContainer');
-    chartContainer.classList.add('visible')
-    chartContainer.innerHTML = ""
+    chartContainer.innerHTML = "";
+    this.showCanvas();
 
     otherColumns.forEach(column => {
       const values = data.map(result => result[column].value);
   
       const chartCanvas = document.createElement('canvas');
-      chartCanvas.classList.add('chart-canvas');
       chartCanvas.id = `chartCanvas-${column}`;
   
       chartContainer.appendChild(chartCanvas);
@@ -127,22 +130,29 @@ export class DashboardsComponent {
       const ctx = chartCanvas.getContext('2d');
   
       new Chart(ctx, {
-        // Configure the chart with appropriate data and options
         type: 'line',
         data: {
           labels: dateColumn,
           datasets: [{
             label: column,
             data: values,
-            // Customize the dataset options
           }]
         },
-        
-        // Additional chart options
       });
     });
   }
+
+  private showCanvas(): void {
+    const chartContainer = document.getElementById('chartContainer');
+    chartContainer.classList.remove("hide");
+    chartContainer.classList.add("show");
+  }
   
+  private hideCanvas(): void {
+    const chartContainer = document.getElementById('chartContainer');
+    chartContainer.classList.remove("show");
+    chartContainer.classList.add("hide");
+  }
 
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
@@ -182,5 +192,4 @@ export class DashboardsComponent {
   }
 
 }
-
 
