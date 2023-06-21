@@ -1,0 +1,59 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 80%;
+    padding: 20px;
+    margin: auto;
+  }
+  
+  .headings {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+  }
+  
+  .download {
+    margin-left: auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: rgb(49, 121, 126);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .download:hover {
+    background-color: rgb(34, 89, 92);
+  }
+  
+  .information {
+    padding: 20px 0;
+  }
+  
+  .border-bot {
+    border-bottom: 3px solid rgb(49, 121, 126);
+  }
+  
+  .view-dashboards {
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 60px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    background-color: rgb(49, 121, 126);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+  
+  .view-dashboards:hover {
+    background-color: rgb(34, 89, 92);
+  }
