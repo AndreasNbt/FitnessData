@@ -1,49 +1,46 @@
-prefix :  <http://example.org/>
-prefix sh: <http://www.w3.org/ns/shacl#>
-prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+@prefix : <http://test.org/FitnessData.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
 
-
-:PersonShape a sh:Shape ;
-    sh:scopeClass :Person ;
+:PersonConstraint a sh:NodeShape ;
+    sh:targetClass :Person ;
     sh:property [
-        sh:predicate :personId ;
+        sh:path :personId ;
         sh:minCount 1;
         sh:maxCount 1;
-        sh:datatype xsd:integer ;
     ] .
 
-:ObservationShape a sh:Shape ;
-    sh:scopeClass :Observation ;
+:ObservationConstraint a sh:NodeShape ;
+    sh:targetClass :Observation ;
     sh:property [
-        sh:predicate :observedPerson ;
+        sh:path :observedPerson ;
+        sh:class :Person;
         sh:minCount 1;
         sh:maxCount 1;
-        sh:datatype :Person ;
     ] ;
     sh:property [
-        sh:predicate :hasResult ;
+        sh:path :hasResult ;
+        sh:class :Result;
         sh:minCount 1;
         sh:maxCount 1;
-        sh:datatype :Result ;
     ] ;
     sh:property [
-        sh:predicate :observationId ;
+        sh:path :observationId ;
         sh:minCount 1;
         sh:maxCount 1;
-        sh:datatype xsd:integer ;
     ] .
 
-:ResultShape a sh:Shape ;
-    sh:scopeClass :Result ;
+:ResultConstraint a sh:NodeShape ;
+    sh:targetClass :Result ;
     sh:property [
-        sh:predicate :resultTime ;
-        sh:minCount 1;
-        sh:maxCount 1;
-        sh:datatype xsd:string ;
+        sh:path :resultTime;
     ] ;
     sh:property [
-        sh:predicate :resultId ;
+        sh:path :resultId ;
         sh:minCount 1;
         sh:maxCount 1;
-        sh:datatype xsd:integer ;
     ] .

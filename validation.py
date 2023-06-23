@@ -7,11 +7,8 @@ data_file = './Data.owl'
 shapes_file = './rules.shacl'
 
 # Perform SHACL validation
-results_graph, results_text, results_conforms = validate(data_file, 
-                                                        shacl_graph=shapes_file, 
-                                                        ont_graph=None, inference='rdfs', 
-                                                        abort_on_first=False)
-
+results_conforms, results_graph, results_text  = validate(data_file, shacl_graph=shapes_file ) 
+                                                    
 # Check if validation has errors or violations
 if results_conforms:
     print("Data is valid according to the SHACL rules.")

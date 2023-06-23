@@ -84,7 +84,7 @@ export class DashboardsComponent {
     const formattedEndDate = formatDate(this.endDate, 'yyyy-MM-dd', 'en');
 
     this.selectQuery(formattedStartDate, formattedEndDate);
-
+    
     this.queryService.executeQuery(this.query)
       .pipe(
         map(response => response.results.bindings),
