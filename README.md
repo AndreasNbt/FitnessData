@@ -25,7 +25,7 @@ To install the necessary dependencies for this project, please follow these step
 2. After that, navigate to the repository's directory: **cd directory
    
 3. Install all the necessary dependencies for the python scripts:
-   **pip install pandas
+   pip install pandas
    **pip install pyshacl
    **pip install owlready2
 
