@@ -20,31 +20,31 @@ Before running the program, please ensure that you have the following prerequisi
 
 To install the necessary dependencies for this project, please follow these steps:
 
-1. Clone the repository to your local machine using the following command: **git clone https://github.com/AndreasNbt/FitnessData.git
+1. Clone the repository to your local machine using the following command: **git clone https://github.com/AndreasNbt/FitnessData.git**
    
-2. After that, navigate to the repository's directory: **cd directory
+2. After that, navigate to the repository's directory: **cd directory**
    
 3. Install all the necessary dependencies for the python scripts:
-   pip install pandas
-   **pip install pyshacl
-   **pip install owlready2
+   **pip install pandas**
+   **pip install pyshacl**
+   **pip install owlready2**
 
-4. Install Node.js dependencies by running the following command: **npm install
+4. Install Node.js dependencies by running the following command: **npm install**
 
 ## Execution Instructions
 
-- To run the program which reads and transforms the data, and creates the ontology, execute the main.py script with the following command: **python main.py
+- To run the program which reads and transforms the data, and creates the ontology, execute the main.py script with the following command: **python main.py**
   There is already a Data.owl file in the repository which contains the output of the main.py script, so you dont have to run it unless you want to change or test something.
 
-- To validate the created ontology, execute the validation.py script with the following command: **python validation.py
+- To validate the created ontology, execute the validation.py script with the following command: **python validation.py**
 
 - Next, you have to create a local GraphDB repository and store the Data.owl file. To do that, open the GraphDB Workbench by opening the GraphDB Desktop app that you previously installed.
   After that, navigate to the Import page and add the Data.owl file that exists in the repository by click the "**Upload RDF files" button near the top of the page. When the file appears below, click the Import button on it's right.
 
-- Finally, to run the web application, first navigate to the Dashboards folder: **cd ./Dashboards
-  First, you need to run the local server which will send requests to the database. To do that navigate to the backend folder with this command:  **cd ./src/backend
-  and then start the server with the command: **node server.js
-  After that, open a new terminal, navigate to the Dashboards folder and start the Angular project with the command: **ng serve
+- Finally, to run the web application, first navigate to the Dashboards folder: **cd ./Dashboards**
+  First, you need to run the local server which will send requests to the database. To do that navigate to the backend folder with this command:  **cd ./src/backend**
+  and then start the server with the command: **node server.js**
+  After that, open a new terminal, navigate to the Dashboards folder and start the Angular project with the command: **ng serve**
   This will execute the project and open a browser window which will display the home (about) page.
   
 
