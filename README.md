@@ -39,7 +39,7 @@ To install the necessary dependencies for this project, please follow these step
 - To validate the created ontology, execute the validation.py script with the following command: **python validation.py**
 
 - Next, you have to create a local GraphDB repository and store the Data.owl file. To do that, open the GraphDB Workbench by opening the GraphDB Desktop app that you previously installed.
-  After that, navigate to the Import page and add the Data.owl file that exists in the repository by click the "**Upload RDF files" button near the top of the page. When the file appears below, click the Import button on it's right.
+  After that, navigate to the Import page and add the Data.owl file that exists in the repository by click the **"Upload RDF files"** button near the top of the page. When the file appears below, click the Import button on it's right.
 
 - Finally, to run the web application, first navigate to the Dashboards folder: **cd ./Dashboards**
   First, you need to run the local server which will send requests to the database. To do that navigate to the backend folder with this command:  **cd ./src/backend**
