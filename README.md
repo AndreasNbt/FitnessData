@@ -8,7 +8,7 @@ Before running the program, please ensure that you have the following prerequisi
 
 - Python: Python is required to execute the Python scripts in this repository. You can download the latest version of Python from the official Python website: [python.org](https://www.python.org).
   
-- Node.js and npm: Node.js is required for running the Angular project included in this repository. You can download and install Node.js from the official Node.js website: [nodejs.org](https://nodejs.org).
+- Node.js: Node.js is required for running the Angular project included in this repository. You can download and install Node.js from the official Node.js website: [nodejs.org](https://nodejs.org).
 
 - GraphDB: GraphDB is a prerequisite for this project. Follow the steps below to install GraphDB:
 
